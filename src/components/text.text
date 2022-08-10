@@ -1,0 +1,113 @@
+<template>
+  <div class="container">
+    <h2>{{ nameApp }}</h2>
+    <input
+      type="text"
+      class="todo-input"
+      placeholder="todo..."
+      v-model="newTodo"
+      @keyup.enter="addNewTodo"
+    />
+    <TodoItem
+      v-for="todo in todos"
+      :key="todo.id"
+      :todo="todo"
+      @willDelete="handleRemove"
+      @willChangeStt="handleChangeStt"
+    ></TodoItem>
+
+   
+  </div>
+</template>
+
+<script type="text/javascript">
+import TodoItem from "./TodoItem.vue";
+
+export default {
+  components: {
+    TodoItem,
+  },
+
+  name: "todo-list",
+
+  data() {
+    return {
+      nameApp: "Todo List",
+      newTodo: "",
+      forId: 4,
+      Update: null,
+
+      todos: [
+        {
+          id: 1,
+          title: "action 1",
+          complete: true,
+          
+        },
+
+        {
+          id: 2,
+          title: "action 2",
+          complete: true,
+          
+        },
+
+        {
+          id: 3,
+          title: "action 3",
+          complete: false,
+          
+        },
+      ],
+    };
+  },
+
+  methods: {
+    addNewTodo() {
+      this.todos.push({
+        id: this.forId,
+        title: this.newTodo,
+        complete: false,
+        editing: false,
+      });
+
+      this.newTodo = "";
+      this.forId++;
+    },
+
+    handleRemove(value) {
+      console.log(value);
+      this.todos.splice(value - 1, 1);
+    },
+
+    handleChangeStt(value) {
+
+      console.log(value);
+
+    
+      this.todos.forEach(todo => {
+        if(todo.id === value)
+        todo.complete = !todo.complete;
+
+        
+      });
+
+    },
+
+    handleUpdate(){
+
+    },
+  },
+};
+</script>
+
+<style>
+
+
+.todo-input {
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+</style>
